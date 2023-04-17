@@ -41,4 +41,30 @@ if (isset($_POST['operacion'])){
 
   }
 
+  if ($_POST['operacion'] == 'listar'){
+    $data = $estudiante->listarEstudiantes();
+
+    if ($data){
+      $numeroFila = 1;
+      foreach($data as $registro){
+        echo"
+          <tr>
+            <td>{$numeroFila}</td>
+            <td>{$registro['apellidos']}</td>
+            <td>{$registro['nombres']}</td>
+            <td>{$registro['tipodocumento']}</td>
+            <td>{$registro['nrodocumento']}</td>
+            <td>{$registro['fechanacimiento']}</td>
+            <td>{$registro['carrera']}</td>
+            <td>
+            <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>
+            <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-warning btn-sm editar'><i class='bi bi-pencil-square'></i></a>
+            </td>
+          </tr>
+        ";
+        $numeroFila++;
+      }
+    }
+  } // FIN OPERACION = LISTAR
+
 }

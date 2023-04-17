@@ -33,4 +33,16 @@ class Estudiante extends Conexion{
     }
   }
 
+  public function listarEstudiantes(){
+    try{
+      $consulta = $this->accesoBD->prepare("CALL spu_estudiantes_listar()");
+      $consulta->execute();
+
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
 }
