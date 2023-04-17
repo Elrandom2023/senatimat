@@ -19,6 +19,14 @@ BEGIN
 END $$
 
 
+/*
+update estudiantes
+	set fotografia = null
+	where fotografia = 'unafoto.jpg' or
+			fotografia = '';
+*/
+
+CALL spu_estudiantes_listar
 
 DELIMITER $$
 CREATE PROCEDURE spu_estudiantes_registrar
