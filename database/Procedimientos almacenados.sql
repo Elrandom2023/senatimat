@@ -18,15 +18,13 @@ BEGIN
 		WHERE EST.estado = '1';
 END $$
 
+CALL spu_estudiantes_listar
 
 /*
 update estudiantes
 	set fotografia = null
-	where fotografia = 'unafoto.jpg' or
-			fotografia = '';
+	where fotografia = 'f206340808df4f3a230dd29a80e4e00e0eb5d995.jpg';
 */
-
-CALL spu_estudiantes_listar
 
 DELIMITER $$
 CREATE PROCEDURE spu_estudiantes_registrar

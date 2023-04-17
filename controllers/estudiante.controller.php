@@ -46,7 +46,13 @@ if (isset($_POST['operacion'])){
 
     if ($data){
       $numeroFila = 1;
+      $datosEstudiante = '';
+      $botonFoto = "  <a href='#' class='btn btn-sm btn-secondary' title='No tiene fotografia'><i class='bi bi-eye-slash-fill'></i></a>";
+
       foreach($data as $registro){
+        $datosEstudiante = $registro['apellidos'] . ' ' . $registro['nombres'];
+
+        // La primera parte a RENDERIZAR, es lo standar (siempre se muestra)
         echo"
           <tr>
             <td>{$numeroFila}</td>
@@ -57,11 +63,22 @@ if (isset($_POST['operacion'])){
             <td>{$registro['fechanacimiento']}</td>
             <td>{$registro['carrera']}</td>
             <td>
-            <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>
-            <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-warning btn-sm editar'><i class='bi bi-pencil-square'></i></a>
+              <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>
+              <a href='#' data-idestudiante='{$registro['idestudiante']}' class='btn btn-warning btn-sm editar'><i class='bi bi-pencil-square'></i></a>";
+
+        // La segunda parte a RENDERIZAR, es el boton VER FOTOGRAFIA
+        if ($registro['fotografia'] == ''){
+          echo $botonFoto;
+        }else{
+          echo "  <a href='../views/img/fotografias/{$registro['fotografia']}' data-lightbox='{$registro['idestudiante']}' data-title='{$datosEstudiante}' class='btn btn-primary btn-sm editar'><i class='bi bi-eye-fill'></i></a>";
+        }
+
+        // La tercera parte a RENDERIZAR, cierre 
+        echo "
             </td>
-          </tr>
+          </td>
         ";
+
         $numeroFila++;
       }
     }

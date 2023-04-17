@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>Estudiantes</title>
@@ -14,6 +14,8 @@
   <!-- Iconos de Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
+  <!-- LightBox CSS -->
+  <link rel="stylesheet" href="../dist/lightbox2/src/css/lightbox.css">
 
 </head>
 
@@ -26,7 +28,7 @@
 
   <div class="container">
     <table id="tabla-estudiantes" class="table table striped table-sm">
-      <thead>
+      <thead class="bg-primary text-light">
         <tr>
           <th>#</th>
           <th>Apellidos</th>
@@ -136,6 +138,9 @@
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- LightBox JS -->
+  <script src="../dist/lightbox2/src/js/lightbox.js"></script>
+
   <script>
     $(document).ready(function (){
       
@@ -159,18 +164,6 @@
           dataType: 'text',
           success: function (result){
             $("#escuela").html(result);
-          }
-        });
-      }
-
-      function listarEstudiantes(){
-        $.ajax({
-          url: '../controllers/estudiante.controller.php',
-          type: 'POST',
-          data: {operacion: 'listar'},
-          dataType: 'text',
-          success: function(result){
-            $("#tabla-estudiantes tbody").html(result);
           }
         });
       }
@@ -223,6 +216,19 @@
         });
       }
 
+      function listarEstudiantes(){
+        $.ajax({
+          url: '../controllers/estudiante.controller.php',
+          type: 'POST',
+          data: {operacion: 'listar'},
+          dataType: 'text',
+          success: function(result){
+            $("#tabla-estudiantes tbody").html(result);
+          }
+        });
+      }
+
+
       $("#guardar-estudiante").click(preguntarRegistro);
 
       //Al cambiar una escuela, se actualizará las carreras
@@ -250,6 +256,7 @@
         obtenerSedes();
         obtenerEscuelas();
       });
+      // Funciones de Carga Automatica
       listarEstudiantes();
 
     });
