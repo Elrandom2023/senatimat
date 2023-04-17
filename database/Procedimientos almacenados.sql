@@ -42,12 +42,12 @@ BEGIN
 	(_apellidos, _nombres, _tipodocumento, _nrodocumento, _fechanacimiento, _idcarrera, _idsede, _fotografia);
 END $$
 
-/*
+
 CALL spu_estudiantes_registrar('Francia Minaya', 'Jhon', 'D', '12345678', '1984-09-20', 5, 1, '');
 CALL spu_estudiantes_registrar('Munayco', 'José', 'D', '77779999', '1999-09-20', 3, 2, NULL);
 CALL spu_estudiantes_registrar('Prada', 'Teresa', 'C', '01234567', '2002-09-25', 3, 2, '');
 SELECT * FROM estudiantes;
-*/
+
 
 DELIMITER $$
 CREATE PROCEDURE spu_sedes_listar()
