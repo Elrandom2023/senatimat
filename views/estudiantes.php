@@ -27,7 +27,7 @@
   </button>
 
   <div class="container">
-    <table id="tabla-estudiantes" class="table table striped table-sm">
+    <table id="tabla-estudiantes" class="table table-striped table-sm">
       <thead class="bg-primary text-light">
         <tr>
           <th>#</th>
