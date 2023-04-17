@@ -19,6 +19,7 @@ BEGIN
 END $$
 
 
+
 DELIMITER $$
 CREATE PROCEDURE spu_estudiantes_registrar
 (

@@ -13,11 +13,11 @@
 
 </head>
 
-<body>
+<body class="bg-black">
   
   <!-- Modal trigger button -->
   <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modal-estudiante">
-    Launch
+    Lanzar
   </button>
   
   <!-- Modal Body -->
@@ -30,7 +30,7 @@
         </div>
         <div class="modal-body">
           
-          <form action="" autocomplete="off" id="formulario-estudiantes">
+          <form action="" autocomplete="off" id="formulario-estudiantes" enctype="multipart/form-data">
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="apellidos" class="form-label">Apellidos:</label>
@@ -46,6 +46,8 @@
                 <label for="tipodocumento" class="form-label">Tipo documento:</label>
                 <select name="tipodocumento" id="tipodocumento" class="form-select form-select-sm">
                   <option value="">Seleccione</option>
+                  <option value="D">DNI</option>
+                  <option value="C">Carnet de Extranjeria</option>
                 </select>
               </div>
               <div class="mb-3 col-md-6">
@@ -82,7 +84,7 @@
 
             <div class="mb-3">
               <label for="fotografia">Fotografía:</label>
-              <input type="file" id="fotografia" class="form-control form-control-sm">
+              <input type="file" id="fotografia" accept=".jpg" class="form-control form-control-sm">
             </div>
           </form>
 
@@ -138,6 +140,36 @@
       }
 
       function registrarEstudiante(){
+
+        // Enviaremos los datos dentro de un OBJETO
+        var formData = new FormData();
+
+        formData.append("operacion","registrar");
+        formData.append("apellidos",$("#apellidos").val());
+        formData.append("nombres",$("#nombres").val());
+        formData.append("tipodocumento",$("#tipodocumento").val());
+        formData.append("nrodocumento",$("#nrodocumento").val());
+        formData.append("fechanacimiento",$("#fechanacimiento").val());
+        formData.append("idcarrera",$("#carrera").val());
+        formData.append("idsede",$("#sede").val());
+        formData.append("fotografia",$("#fotografia")[0].files[0]);
+
+        $.ajax({
+          url: '../controllers/estudiante.controller.php',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          cache: false,
+          success: function(){
+            $("#formulario-estudiantes")[0].reset();
+            $("#modal-estudiante").modal("hide");
+            alert("Guardado correctamente");
+          }
+        });
+      }
+
+      function preguntarRegistro(){
         Swal.fire({
           icon: 'question',
           title: 'Matrículas',
@@ -150,12 +182,12 @@
         }).then((result) => {
           //Identificando acción del usuario
           if (result.isConfirmed){
-            console.log("Guardado datos...");
+            registrarEstudiante();
           }
         });
       }
 
-      $("#guardar-estudiante").click(registrarEstudiante);
+      $("#guardar-estudiante").click(preguntarRegistro);
 
       //Al cambiar una escuela, se actualizará las carreras
       $("#escuela").change(function (){
