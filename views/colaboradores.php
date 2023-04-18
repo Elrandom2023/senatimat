@@ -11,6 +11,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
+  <!-- Iconos de Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+  
+  <!-- LightBox CSS -->
+  <link rel="stylesheet" href="../dist/lightbox2/src/css/lightbox.css">
+    
 </head>
 
 <body>
@@ -96,7 +102,7 @@
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="cv" class="form-label">Curriculum Vitae:</label>
-                <input type="file" class="form-control form-control-sm" id="cv">
+                <input type="file" accept=".pdf" class="form-control form-control-sm" id="cv">
               </div>
               <div class="mb-3 col-md-6">
                 <label for="direccion" class="form-label">Dirección:</label>
@@ -174,7 +180,63 @@
         });
       }
 
+      function registrarColaborador(){
+
+        // Enviaremos los datos dentro de un OBJETO
+        var formData = new FormData();
+
+        formData.append("operacion","registrar");
+        formData.append("idcargo",$("#cargo").val());
+        formData.append("idsede",$("#sede").val());
+        formData.append("apellidos",$("#apellidos").val());
+        formData.append("nombres",$("#nombres").val());
+        formData.append("telefono",$("#telefono").val());
+        formData.append("tipocontrato",$("#tipocontrato").val());
+        formData.append("cv",$("#cv")[0].files[0]);
+        formData.append("direccion",$("#direccion").val());
+
+        $.ajax({
+          url: '../controllers/colaborador.controller.php',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          cache: false,
+          success: function(){
+            $("#formulario-colaboradores")[0].reset();
+            $("#modal-colaborador").modal("hide");
+            alert("Guardado correctamente");
+          }
+        });
+      }
+
+      function preguntarRegistro(){
+        Swal.fire({
+          icon: 'question',
+          title: 'Colaboradores',
+          text: '¿Está seguro de registrar al colaborador?',
+          footer: 'Desarrollado con PHP',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#3498DB',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          //Identificando acción del usuario
+          if (result.isConfirmed){
+            registrarColaborador();
+          }
+        });
+      }
+      
+      $("#guardar-colaborador").click(preguntarRegistro);
+
+      //Predeterminamos un control dentro del modal
+
+
+
       listarColaboradores();
+      obtenerSedes();
+      obtenerCargos();
 
     });
   </script>

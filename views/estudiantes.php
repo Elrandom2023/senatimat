@@ -13,7 +13,7 @@
 
   <!-- Iconos de Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-
+  
   <!-- LightBox CSS -->
   <link rel="stylesheet" href="../dist/lightbox2/src/css/lightbox.css">
 

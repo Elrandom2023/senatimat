@@ -23,7 +23,7 @@ if (isset($_POST['operacion'])){
     // Vamos a verificar si la vista nos envio una CV
     if (isset($_FILES['cv'])){
 
-      $rutaDestino = '../views/document/pdf';
+      $rutaDestino = '../views/document/pdf/';
       $fechaActual = date('c'); //C = Complete, AÑO MES DIA HORA MINUTO SEGUNDO
       $nombreArchivo = sha1($fechaActual).".pdf";
       $rutaDestino .= $nombreArchivo;
@@ -46,7 +46,7 @@ if (isset($_POST['operacion'])){
     if ($data){
       $numeroFila = 1;
       $datosColaborador = '';
-      // $botonCv = "  <a href='#' class='btn btn-sm btn-secondary' title='No tiene CV'><i class='bi bi-eye-slash-fill'></i></a>";
+      $botonCv = "  <a href='#' class='btn btn-sm btn-secondary' title='No tiene CV'><i class='bi bi-eye-slash-fill'></i></a>";
 
       foreach($data as $registro){
         $datosColaborador = $registro['apellidos'] . ' ' . $registro['nombres'];
@@ -62,17 +62,15 @@ if (isset($_POST['operacion'])){
             <td>{$registro['telefono']}</td>
             <td>{$registro['tipocontrato']}</td>
             <td>{$registro['direccion']}</td>
-            <td>{$registro['cv']}</td>
             <td>
               <a href='#' data-idcolaborador='{$registro['idcolaborador']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>
               <a href='#' data-idcolaborador='{$registro['idcolaborador']}' class='btn btn-warning btn-sm editar'><i class='bi bi-pencil-square'></i></a>";
-
         // La segunda parte a RENDERIZAR, es el boton VER CV
-        // if ($registro['cv'] == ''){
-        //   echo $botonCv;
-        // }else{
-        //   echo "  <a href='../views/document/pdf/{$registro['cv']}' data-lightbox='{$registro['idcolaborador']}' data-title='{$datosColaboradores}' class='btn btn-primary btn-sm editar'><i class='bi bi-eye-fill'></i></a>";
-        // }
+        if ($registro['cv'] == ''){
+          echo $botonCv;
+        }else{
+          echo "  <a href='../views/document/pdf/{$registro['cv']}' target='_blank' class='btn btn-primary btn-sm'><i class='bi bi-eye-fill'></i></a>";
+        }
 
         // La tercera parte a RENDERIZAR, cierre 
         echo "

@@ -70,7 +70,7 @@ if (isset($_POST['operacion'])){
         if ($registro['fotografia'] == ''){
           echo $botonFoto;
         }else{
-          echo "  <a href='../views/img/fotografias/{$registro['fotografia']}' data-lightbox='{$registro['idestudiante']}' data-title='{$datosEstudiante}' class='btn btn-primary btn-sm editar'><i class='bi bi-eye-fill'></i></a>";
+          echo "  <a href='../views/img/fotografias/{$registro['fotografia']}' data-lightbox='{$registro['idestudiante']}' data-title='{$datosEstudiante}' class='btn btn-primary btn-sm'><i class='bi bi-eye-fill'></i></a>";
         }
 
         // La tercera parte a RENDERIZAR, cierre 
