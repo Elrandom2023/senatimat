@@ -78,3 +78,99 @@ END $$
 
 CALL spu_carreras_listar(3);
 
+-- TAREA ###############################################
+DELIMITER $$
+CREATE PROCEDURE spu_cargos_listar()
+BEGIN
+	SELECT * FROM cargos ORDER BY 2;
+END $$
+CALL spu_cargos_listar
+
+DELIMITER $$
+CREATE PROCEDURE spu_colaboradores_listar()
+BEGIN
+	SELECT	CLB.idcolaborador,CLB.apellidos, CLB.nombres,
+				CRG.cargo, SED.sede,
+				CLB.telefono,CLB.tipocontrato,
+				CLB.cv,CLB.direccion
+		FROM colaboradores CLB
+		INNER JOIN cargos CRG ON CRG.idcarrera = CLB.idcarrera
+		INNER JOIN sedes SED ON SED.idsede = CLB.idsede
+		WHERE CLB.estado = '1';
+END $$
+
+CALL spu_colaboradores_listar
+
+DELIMITER $$
+CREATE PROCEDURE spu_colaboradores_registrar
+(
+	IN _apellidos		VARCHAR(40),
+	IN _nombres			VARCHAR(40),
+	IN _idcargo			INT,
+	IN _idsede			INT,
+	IN _telefono		CHAR(9),
+	IN _tipocontrato	CHAR(1),
+	IN _cv				VARCHAR(100),
+	IN _direccion		VARCHAR(60)
+)
+BEGIN
+	-- Validar el contenido de _cv
+	IF _cv = '' THEN 
+		SET _cv = NULL;
+	END IF;
+
+	INSERT INTO colaboradores 
+	(apellidos, nombres, idcargo, idsede, telefono, tipocontrato, cv, direccion)) VALUES
+	(_apellidos, _nombres, _idcargo, _idsede, _telefono, _tipocontrato, _cv, _direccion);
+END $$
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_colaboradores_actualizar
+(
+	IN _idcolaborador INT,
+	IN _apellidos		VARCHAR(40),
+	IN _nombres			VARCHAR(40),
+	IN _idcargo			INT,
+	IN _idsede			INT,
+	IN _telefono		CHAR(9),
+	IN _tipocontrato	CHAR(1),
+	IN _cv				VARCHAR(100),
+	IN _direccion		VARCHAR(60)
+)
+BEGIN
+	IF _cv = '' THEN 
+		SET _cv = NULL;
+	END IF;
+	
+	UPDATE colaboradores SET
+		apellidos = _apellidos,
+		nombres = _nombres,
+		idcargo = _idcargo,
+		idsede = _idsede,
+		telefono = _telefono,
+		tipocontrato = _tipocontrato,
+		cv = _cv,
+		direccion = _direccion,
+		fechaupdate = NOW()
+	WHERE idcolaborador = _idcolaborador;
+END $$
+
+CALL spu_colaboradores_actualizar(1, 'Castillo Gutierrez', 'Yisus', 1, 1, '981547632', 'C', '', 'Calle del Random');
+
+CALL spu_colaboradores_listar
+
+
+
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_colaboradores_eliminar(IN _idcolaborador INT)
+BEGIN
+	DELETE FROM colaboradores
+	WHERE idcolaborador = _idcolaborador;
+END $$
+
+CALL spu_colaboradores_eliminar(6)
+
+

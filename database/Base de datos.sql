@@ -83,3 +83,32 @@ INSERT INTO estudiantes
 	('Quintana', 'Tania', '33334444', '2001-05-05', 9, 4);
 
 SELECT * FROM estudiantes;
+
+
+-- TAREA #################################################
+
+CREATE TABLE cargos
+(
+	idcargo 		INT AUTO_INCREMENT PRIMARY KEY,
+	cargo 		VARCHAR(30),
+	CONSTRAINT uk_cargo_crg UNIQUE (crg)
+)ENGINE = INNODB
+
+
+CREATE TABLE colaboradores
+(
+	idcolaborador 		INT AUTO_INCREMENT PRIMARY KEY,
+	idcargo				INT 				NOT NULL,
+	idsede				INT 				NOT NULL,
+	apellidos			VARCHAR(40)		NOT NULL,
+	nombres 				VARCHAR(40)		NOT NULL,
+	telefono		 		CHAR(9)			NOT NULL,
+	tipocontrato		CHAR(1)			NOT NULL DEFAULT 'P',
+	cv						VARCHAR(100)	NULL,
+	direccion 			VARCHAR(60)		NOT NULL,
+	fecharegistro		DATETIME 		NOT NULL DEFAULT NOW(),
+	fechaupdate 		DATETIME 		NULL,
+	estado 				CHAR(1)			NOT NULL DEFAULT '1',
+	CONSTRAINT fk_idcargo_clb FOREIGN KEY (idcargo) REFERENCES cargos (idcargo),
+	CONSTRAINT fk_idsede_clb FOREIGN KEY (idsede) REFERENCES sedes (idsede)
+)ENGINE = INNODB;

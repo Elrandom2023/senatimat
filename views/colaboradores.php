@@ -206,6 +206,7 @@
             $("#formulario-colaboradores")[0].reset();
             $("#modal-colaborador").modal("hide");
             alert("Guardado correctamente");
+            listarColaboradores();
           }
         });
       }
@@ -230,8 +231,24 @@
       
       $("#guardar-colaborador").click(preguntarRegistro);
 
-      //Predeterminamos un control dentro del modal
-
+      $("#tabla-colaborador tbody").on("click", ".eliminar", function (){
+        const idcolaboradorEliminar = $(this).data("idcolaborador");
+        if (confirm("¿Esta seguro de proceder, esto eliminara el registro del Colaborador?")){
+          $.ajax({
+            url: '../controllers/colaborador.controller.php',
+            type: 'POST',
+            data: {
+              operacion : 'eliminar',
+              idcolaborador   : idcolaboradorEliminar
+            },
+            success: function(result){
+              if (result == ""){
+                listarColaboradores();
+              }
+            }
+          });
+        }
+      });
 
 
       listarColaboradores();

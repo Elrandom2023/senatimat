@@ -45,4 +45,38 @@ class Colaborador extends Conexion{
     }
   }
 
+  public function eliminarColaborador($idcolaborador = 0){
+    try{
+      $consulta = $this->accesoBD->prepare("CALL spu_colaboradores_eliminar(?)");
+      $consulta->execute(array($idcolaborador));
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
+  public function actualizarColaborador($datos = []){
+    try{
+        // 1. Preparamos la consulta
+        $consulta = $this->accesoBD->prepare("CALL spu_colaboradores_actualizar(?,?,?,?,?,?,?,?,?)");
+        // 2. Ejecutamos la consulta
+        $consulta->execute(
+          array(
+            $datos["idcolaborador"],
+            $datos["apellidos"],
+            $datos["nombres"],
+            $datos["idcargo"],
+            $datos["idsede"],
+            $datos["telefono"],
+            $datos["tipocontrato"],
+            $datos["cv"],
+            $datos["direccion"]
+          )
+        );
+    }
+    catch(Exception $e){
+      die($e->getMessage());
+    }
+  }
+
 }

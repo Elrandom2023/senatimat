@@ -46,7 +46,7 @@ if (isset($_POST['operacion'])){
     if ($data){
       $numeroFila = 1;
       $datosColaborador = '';
-      $botonCv = "  <a href='#' class='btn btn-sm btn-secondary' title='No tiene CV'><i class='bi bi-eye-slash-fill'></i></a>";
+      $botonCv = "  <a href='#' class='btn btn-sm btn-secondary' title='No tiene CV'><i class='bi bi-filetype-pdf'></i></a>";
 
       foreach($data as $registro){
         $datosColaborador = $registro['apellidos'] . ' ' . $registro['nombres'];
@@ -69,7 +69,7 @@ if (isset($_POST['operacion'])){
         if ($registro['cv'] == ''){
           echo $botonCv;
         }else{
-          echo "  <a href='../views/document/pdf/{$registro['cv']}' target='_blank' class='btn btn-primary btn-sm'><i class='bi bi-eye-fill'></i></a>";
+          echo "  <a href='../views/document/pdf/{$registro['cv']}' target='_blank' class='btn btn-primary btn-sm'><i class='bi bi-filetype-pdf'></i></a>";
         }
 
         // La tercera parte a RENDERIZAR, cierre 
@@ -82,5 +82,26 @@ if (isset($_POST['operacion'])){
       }
     }
   } // FIN OPERACION = LISTAR
+
+  if ($_POST['operacion'] == 'eliminar'){
+    $colaborador->eliminarColaborador($_POST['idcolaborador']);
+  }
+
+  if ($_POST['operacion'] == 'actualizar'){
+    // PASO 1: Recoger los datos que nos envia la vista (FORM, utilizando AJAX)
+    $datosForm = [
+      "idcurso"       => $_POST['idcurso'],
+      "nombrecurso"   => $_POST['nombrecurso'],
+      "especialidad"  => $_POST['especialidad'],
+      "complejidad"   => $_POST['complejidad'],
+      "fechainicio"   => $_POST['fechainicio'],
+      "precio"        => $_POST['precio']
+    ];
+
+    // PASO 2: Enviar el arreglo como parametro del metodo ACTUALIZAR
+    $curso->actualizarCurso($datosForm);
+
+}
+
 
 }
