@@ -112,3 +112,17 @@ CREATE TABLE colaboradores
 	CONSTRAINT fk_idcargo_clb FOREIGN KEY (idcargo) REFERENCES cargos (idcargo),
 	CONSTRAINT fk_idsede_clb FOREIGN KEY (idsede) REFERENCES sedes (idsede)
 )ENGINE = INNODB;
+
+CREATE TABLE usuarios
+(
+	idusuario		INT AUTO_INCREMENT PRIMARY KEY,
+	usuario			VARCHAR(20)			NOT NULL,
+	claveacceso		VARCHAR(80)			NOT NULL,
+	estado			CHAR(1)				NOT NULL DEFAULT '1',
+	CONSTRAINT uk_usuario_user UNIQUE (usuario)
+)ENGINE = INNODB;
+
+INSERT INTO usuarios(usuario, claveacceso) VALUES
+	('Jhon Francia','SENATI')
+	
+SELECT * FROM usuarios

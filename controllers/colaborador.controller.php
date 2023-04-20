@@ -63,13 +63,12 @@ if (isset($_POST['operacion'])){
             <td>{$registro['tipocontrato']}</td>
             <td>{$registro['direccion']}</td>
             <td>
-              <a href='#' data-idcolaborador='{$registro['idcolaborador']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>
-              <a href='#' data-idcolaborador='{$registro['idcolaborador']}' class='btn btn-warning btn-sm editar'><i class='bi bi-pencil-square'></i></a>";
+              <a href='#' data-idcolaborador='{$registro['idcolaborador']}' class='btn btn-danger btn-sm eliminar'><i class='bi bi-trash3'></i></a>";
         // La segunda parte a RENDERIZAR, es el boton VER CV
         if ($registro['cv'] == ''){
           echo $botonCv;
         }else{
-          echo "  <a href='../views/document/pdf/{$registro['cv']}' target='_blank' class='btn btn-primary btn-sm'><i class='bi bi-filetype-pdf'></i></a>";
+          echo "  <a href='../views/document/pdf/{$registro['cv']}' target='_blank' class='btn btn-warning btn-sm'><i class='bi bi-filetype-pdf'></i></a>";
         }
 
         // La tercera parte a RENDERIZAR, cierre 
@@ -90,18 +89,30 @@ if (isset($_POST['operacion'])){
   if ($_POST['operacion'] == 'actualizar'){
     // PASO 1: Recoger los datos que nos envia la vista (FORM, utilizando AJAX)
     $datosForm = [
-      "idcurso"       => $_POST['idcurso'],
-      "nombrecurso"   => $_POST['nombrecurso'],
-      "especialidad"  => $_POST['especialidad'],
-      "complejidad"   => $_POST['complejidad'],
-      "fechainicio"   => $_POST['fechainicio'],
-      "precio"        => $_POST['precio']
+      "idcolaborador"   => $_POST['idcolaborador'],
+      "apellidos"       => $_POST['apellidos'],
+      "nombres"         => $_POST['nombres'],
+      "idcargo"         => $_POST['idcargo'],
+      "idsede"          => $_POST['idsede'],
+      "telefono"        => $_POST['telefono'],
+      "tipocontrato"    => $_POST['tipocontrato'],
+      "cv"              => $_POST['cv'],
+      "direccion"       => $_POST['direccion']
     ];
 
     // PASO 2: Enviar el arreglo como parametro del metodo ACTUALIZAR
-    $curso->actualizarCurso($datosForm);
+    $curso->actualizarColaborador($datosForm);
 
 }
 
-
+if ($_POST['operacion'] == 'eliminarcv'){
+    $registro = $colaborador->eliminarCv($_POST['idcolaborador']);
+      
+    if($registro == null ){
+      echo"No hay registros";
+    }else{
+      unlink("../views/document/pdf/{$registro['cv']}");
+    }
+    
+    }
 }

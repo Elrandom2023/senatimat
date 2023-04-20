@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
+  header('Location:../');
+}
+?>
+
 <!doctype html>
 <html lang="es">
 
@@ -21,6 +29,10 @@
 
 <body>
   <div class="container">
+    <!-- Modal trigger button -->
+    <button type="button" class="btn btn-primary btn-lg m-5" data-bs-toggle="modal" data-bs-target="#modal-colaborador">
+      Registrar
+    </button>
     <table id="tabla-colaborador" class="table table-striped table-sm">
       <thead class="bg-primary text-light">
         <tr>
@@ -40,11 +52,11 @@
       </tbody>
     </table>
   </div>
-
-  <!-- Modal trigger button -->
-  <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modal-colaborador">
-    Abrir
-  </button>
+  <div class="card-footer text-start m-5">
+    <a href="../views/estudiantes.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Estudiantes</a>
+    <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+  </div>
+  
   
   <!-- Modal Body -->
   <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
@@ -230,8 +242,24 @@
       }
       
       $("#guardar-colaborador").click(preguntarRegistro);
+      $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
+        const cvEliminar = $(this).data("idcolaborador");
+          $.ajax({
+            url: '../controllers/colaborador.controller.php',
+            type: 'POST',
+            data: {
+              operacion : 'eliminarcv',
+              idcolaborador   : cvEliminar
+            },
+            success: function(result){
+              if (result == ""){
+                listarColaboradores();
+              }
+            }
+          });
+      });
 
-      $("#tabla-colaborador tbody").on("click", ".eliminar", function (){
+      $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
         const idcolaboradorEliminar = $(this).data("idcolaborador");
         if (confirm("¿Esta seguro de proceder, esto eliminara el registro del Colaborador?")){
           $.ajax({

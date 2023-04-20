@@ -104,10 +104,10 @@ CALL spu_colaboradores_listar
 DELIMITER $$
 CREATE PROCEDURE spu_colaboradores_registrar
 (
-	IN _apellidos		VARCHAR(40),
-	IN _nombres			VARCHAR(40),
 	IN _idcargo			INT,
 	IN _idsede			INT,
+	IN _apellidos		VARCHAR(40),
+	IN _nombres			VARCHAR(40),
 	IN _telefono		CHAR(9),
 	IN _tipocontrato	CHAR(1),
 	IN _cv				VARCHAR(100),
@@ -123,7 +123,7 @@ BEGIN
 	(apellidos, nombres, idcargo, idsede, telefono, tipocontrato, cv, direccion)) VALUES
 	(_apellidos, _nombres, _idcargo, _idsede, _telefono, _tipocontrato, _cv, _direccion);
 END $$
-
+CALL spu_colaboradores_registrar(1, 1, 'Castillo Gutierrez', 'Yisus', '981547632', 'C', '', 'Calle del Random');
 
 DELIMITER $$
 CREATE PROCEDURE spu_colaboradores_actualizar
@@ -173,4 +173,30 @@ END $$
 
 CALL spu_colaboradores_eliminar(6)
 
+-- ELIMINAR CV
+DELIMITER$$
+CREATE PROCEDURE spu_cv_eliminar(IN idcolaborador_ INT)
+BEGIN
+	SELECT cv FROM colaboradores WHERE idcolaborador = idcolaborador_;
+END$$
 
+CALL spu_cv_eliminar(4)
+
+
+
+
+-- LOGIN ####################3
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_login(IN _usuario VARCHAR(30))
+BEGIN
+	SELECT 	idusuario, usuario, claveacceso
+	FROM usuarios
+	WHERE usuario = _usuario AND estado = '1';
+END $$
+
+CALL spu_usuario_login('jhon francia')
+
+
+UPDATE usuarios SET
+	claveacceso = '$2y$10$OQQxsU/5eFqY2q3Z.gLViOR83gUbL0mU5NoR3k6n4ZArcCjpKc.vS'
+	WHERE idusuario = 1;

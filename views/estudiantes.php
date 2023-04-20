@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
+  header('Location:../');
+}
+?>
+
 <!doctype html>
 <html lang="es">
 
@@ -22,8 +30,8 @@
 <body>
   
   <!-- Modal trigger button -->
-  <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modal-estudiante">
-    Lanzar
+  <button type="button" class="btn btn-primary btn-lg m-1" data-bs-toggle="modal" data-bs-target="#modal-estudiante">
+    Registrar
   </button>
 
   <div class="container">
@@ -44,6 +52,11 @@
 
       </tbody>
     </table>
+  </div>
+
+  <div class="card-footer text-start m-5">
+    <a href="../views/index.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Colaboradores</a>
+    <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
   </div>
   
   <!-- Modal Body -->
@@ -122,6 +135,8 @@
       </div>
     </div>
   </div>
+
+
   
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
