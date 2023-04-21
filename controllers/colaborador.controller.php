@@ -103,9 +103,9 @@ if (isset($_POST['operacion'])){
     // PASO 2: Enviar el arreglo como parametro del metodo ACTUALIZAR
     $curso->actualizarColaborador($datosForm);
 
-}
+  }
 
-if ($_POST['operacion'] == 'eliminarcv'){
+  if ($_POST['operacion'] == 'eliminarcv'){
     $registro = $colaborador->eliminarCv($_POST['idcolaborador']);
       
     if($registro == null ){
@@ -114,5 +114,8 @@ if ($_POST['operacion'] == 'eliminarcv'){
       unlink("../views/document/pdf/{$registro['cv']}");
     }
     
-    }
+  }
+
+
+  
 }

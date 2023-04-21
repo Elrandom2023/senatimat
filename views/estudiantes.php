@@ -29,12 +29,12 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
 
 <body>
   
-  <!-- Modal trigger button -->
-  <button type="button" class="btn btn-primary btn-lg m-1" data-bs-toggle="modal" data-bs-target="#modal-estudiante">
-    Registrar
-  </button>
-
+  
   <div class="container">
+    <!-- Modal trigger button -->
+    <button type="button" class="btn btn-primary btn-lg m-1" data-bs-toggle="modal" data-bs-target="#modal-estudiante">
+      Registrar Estudiante
+    </button>
     <table id="tabla-estudiantes" class="table table-striped table-sm">
       <thead class="bg-primary text-light">
         <tr>
@@ -52,12 +52,12 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
 
       </tbody>
     </table>
+    <div class="card-footer text-start m-1">
+      <a href="../views/index.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Colaboradores</a>
+      <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+    </div>
   </div>
 
-  <div class="card-footer text-start m-5">
-    <a href="../views/index.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Colaboradores</a>
-    <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
-  </div>
   
   <!-- Modal Body -->
   <div class="modal fade" id="modal-estudiante" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
@@ -208,7 +208,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
           success: function(){
             $("#formulario-estudiantes")[0].reset();
             $("#modal-estudiante").modal("hide");
-            alert("Guardado correctamente");
           }
         });
       }
@@ -227,6 +226,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
           //Identificando acción del usuario
           if (result.isConfirmed){
             registrarEstudiante();
+            listarEstudiantes();
           }
         });
       }
@@ -271,6 +271,53 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
         obtenerSedes();
         obtenerEscuelas();
       });
+
+      $("#tabla-estudiantes tbody").on("click", ".eliminar", function(){
+        const fotoEliminar = $(this).data("idestudiante");
+          $.ajax({
+            url: '../controllers/estudiante.controller.php',
+            type: 'POST',
+            data: {
+              operacion : 'eliminarFotografia',
+              idestudiante   : fotoEliminar
+            },
+            success: function(result){
+              if (result == ""){
+                listarEstudiantes();
+              }
+            }
+          });
+      });
+
+      $("#tabla-estudiantes tbody").on("click", ".eliminar", function(){
+        const idestudianteEliminar = $(this).data("idestudiante");
+        Swal.fire({
+          title: "¿Está seguro?",
+          text: "Esto eliminará el registro del Estudiante",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Eliminar"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '../controllers/estudiante.controller.php',
+              type: 'POST',
+              data: {
+                operacion : 'eliminar',
+                idestudiante   : idestudianteEliminar
+              },
+              success: function(result){
+                if (result == ""){
+                  listarEstudiantes();
+                }
+              }
+            });
+          };
+        }); 
+      });
+
       // Funciones de Carga Automatica
       listarEstudiantes();
 

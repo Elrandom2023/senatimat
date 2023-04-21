@@ -13,7 +13,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']){
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./views/img/css/login.css">
+  <link rel="stylesheet" href="./views/css/login.css">
 
   <!-- Bootstrap CSS v5.2.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -36,7 +36,7 @@ if (isset($_SESSION['login']) && $_SESSION['login']){
           <input type="password" class="form-control" id="clave" required>
         </div>
         <div class="d-flex justify-content-center align-items-center">
-          <button type="button" class="btn btn-primary m-3" id="iniciar-sesion">Iniciar Sesión</button>
+          <button type="button" class="btn btn-outline-light m-3" id="iniciar-sesion">Iniciar Sesión</button>
         </div>
 
       </form>

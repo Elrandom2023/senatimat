@@ -84,4 +84,21 @@ if (isset($_POST['operacion'])){
     }
   } // FIN OPERACION = LISTAR
 
+  if ($_POST['operacion'] == 'eliminar'){
+    $estudiante->eliminarEstudiante($_POST['idestudiante']);
+  }
+
+
+  if ($_POST['operacion'] == 'eliminarFotografia'){
+    $registro = $estudiante->eliminarFotografia($_POST['idestudiante']);
+      
+    if($registro == null ){
+      echo"No hay imagen a Eliminar";
+    }else{
+      unlink("../views/img/fotografias/{$registro['fotografia']}");
+    }
+    
+  }
+
+
 }

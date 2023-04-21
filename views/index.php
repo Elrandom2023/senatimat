@@ -30,8 +30,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
 <body>
   <div class="container">
     <!-- Modal trigger button -->
-    <button type="button" class="btn btn-primary btn-lg m-5" data-bs-toggle="modal" data-bs-target="#modal-colaborador">
-      Registrar
+    <button type="button" class="btn btn-primary btn-lg m-1" data-bs-toggle="modal" data-bs-target="#modal-colaborador">
+      Registrar Colaborador
     </button>
     <table id="tabla-colaborador" class="table table-striped table-sm">
       <thead class="bg-primary text-light">
@@ -51,10 +51,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
       <!-- DATOS -->
       </tbody>
     </table>
-  </div>
-  <div class="card-footer text-start m-5">
-    <a href="../views/estudiantes.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Estudiantes</a>
-    <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+    <div class="card-footer text-start m-1">
+      <a href="../views/estudiantes.php" style="text-decoration: none;" class="btn btn-success btn-sm"><i class="bi bi-arrow-bar-left"></i> Ir a la tabla de Estudiantes</a>
+      <a href="../controllers/usuario.controller.php?operacion=finalizar" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-left"></i> Cerrar Sesión</a>
+    </div>
   </div>
   
   
@@ -217,7 +217,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
           success: function(){
             $("#formulario-colaboradores")[0].reset();
             $("#modal-colaborador").modal("hide");
-            alert("Guardado correctamente");
             listarColaboradores();
           }
         });
@@ -226,8 +225,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
       function preguntarRegistro(){
         Swal.fire({
           icon: 'question',
+          iconColor: '#00f',
           title: 'Colaboradores',
-          text: '¿Está seguro de registrar al colaborador?',
+          text: '¿Está seguro de registrar al Colaborador?',
           footer: 'Desarrollado con PHP',
           confirmButtonText: 'Aceptar',
           confirmButtonColor: '#3498DB',
@@ -242,40 +242,93 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] == false){
       }
       
       $("#guardar-colaborador").click(preguntarRegistro);
-      $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
-        const cvEliminar = $(this).data("idcolaborador");
-          $.ajax({
-            url: '../controllers/colaborador.controller.php',
-            type: 'POST',
-            data: {
-              operacion : 'eliminarcv',
-              idcolaborador   : cvEliminar
-            },
-            success: function(result){
-              if (result == ""){
-                listarColaboradores();
-              }
-            }
-          });
-      });
+
+      
+      // $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
+      //   const cvEliminar = $(this).data("idcolaborador");
+      //     $.ajax({
+      //       url: '../controllers/colaborador.controller.php',
+      //       type: 'POST',
+      //       data: {
+      //         operacion : 'eliminarcv',
+      //         idcolaborador   : cvEliminar
+      //       },
+      //       success: function(result){
+      //         if (result == ""){
+      //           listarColaboradores();
+      //         }
+      //       }
+      //     });
+      // });
+
+      // $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
+      //   const idcolaboradorEliminar = $(this).data("idcolaborador");
+      //   Swal.fire({
+      //     title: "¿Está seguro?",
+      //     text: "Esto eliminará el registro del colaborador",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3085d6",
+      //     cancelButtonColor: "#d33",
+      //     confirmButtonText: "Eliminar"
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       $.ajax({
+      //         url: '../controllers/colaborador.controller.php',
+      //         type: 'POST',
+      //         data: {
+      //           operacion : 'eliminar',
+      //           idcolaborador   : idcolaboradorEliminar
+      //         },
+      //         success: function(result){
+      //           if (result == ""){
+      //             listarColaboradores();
+      //           }
+      //         }
+      //       });
+      //     }
+      //   });
+      // });
 
       $("#tabla-colaborador tbody").on("click", ".eliminar", function(){
         const idcolaboradorEliminar = $(this).data("idcolaborador");
-        if (confirm("¿Esta seguro de proceder, esto eliminara el registro del Colaborador?")){
-          $.ajax({
-            url: '../controllers/colaborador.controller.php',
-            type: 'POST',
-            data: {
-              operacion : 'eliminar',
-              idcolaborador   : idcolaboradorEliminar
-            },
-            success: function(result){
-              if (result == ""){
-                listarColaboradores();
+        const cvEliminar = $(this).data("idcolaborador");
+        Swal.fire({
+          title: "¿Está seguro?",
+          text: "Esto eliminará el registro del Colaborador",
+          icon: "warning",
+          iconColor: "#f00",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Eliminar"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: '../controllers/colaborador.controller.php',
+              type: 'POST',
+              data: {
+                operacion: 'eliminar',
+                idcolaborador: idcolaboradorEliminar
+              },
+              success: function(result){
+                if (result == ""){
+                  listarColaboradores();
+                }
               }
-            }
-          });
-        }
+            });
+            $.ajax({
+              url: '../controllers/colaborador.controller.php',
+              type: 'POST',
+              data: {
+                operacion: 'eliminarcv',
+                idcolaborador: cvEliminar
+              },
+              success: function(result){
+              }
+            });
+          }
+        });
       });
 
 

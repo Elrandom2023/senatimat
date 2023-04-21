@@ -8,13 +8,6 @@ CREATE TABLE escuelas
 	CONSTRAINT uk_escuela_esc UNIQUE (escuela)
 )ENGINE = INNODB;
 
-INSERT INTO escuelas (escuela) VALUES
-	('ETI'), -- 1
-	('Administración'), -- 2
-	('Metal mecánica'); -- 3
-
-SELECT * FROM escuelas ORDER BY 1;
-
 -- ***** SEGUNDA TABLA ***** --
 
 CREATE TABLE carreras
@@ -26,19 +19,6 @@ CREATE TABLE carreras
 	CONSTRAINT uk_carrera_car UNIQUE (carrera)
 )ENGINE = INNODB;
 
-INSERT INTO carreras (idescuela, carrera) VALUES
-	(1, 'Diseño Gráfico Digital'),
-	(1, 'Ingeniería de Software con IA'),
-	(1, 'Cyberseguridad'),
-	(2, 'Administración de empresas'),
-	(2, 'Administración Industrial'),
-	(2, 'Prevencionista de Riesgo'),
-	(3, 'Soldador Universal'),
-	(3, 'Mecánico de mantenimiento'),
-	(3, 'Soldador estructuras metálicas');
-
-SELECT * FROM carreras ORDER BY 1;
-
 -- ****** TERCERA TABLA ******* --
 CREATE TABLE sedes
 (
@@ -46,14 +26,6 @@ CREATE TABLE sedes
 	sede 			VARCHAR(40)		NOT NULL,
 	CONSTRAINT uk_sede_sde UNIQUE (sede)
 )ENGINE = INNODB;
-
-INSERT INTO sedes (sede) VALUES
-	('Chincha'),
-	('Pisco'),
-	('Ica'),
-	('Ayacucho');
-
-SELECT * FROM sedes ORDER BY 1;
 
 -- ******* CUARTA TABLA ********* --
 CREATE TABLE estudiantes
@@ -75,16 +47,6 @@ CREATE TABLE estudiantes
 	CONSTRAINT fk_idsede_est FOREIGN KEY (idsede) REFERENCES sedes (idsede)
 )ENGINE = INNODB;
 
-INSERT INTO estudiantes 
-	(apellidos, nombres, nrodocumento, fechanacimiento, idcarrera, idsede) VALUES
-	('Martinez', 'Carlos', '44445555', '2000-01-01', 1, 1),
-	('Ochoa', 'Fiorella', '77778888', '2000-10-10', 4, 2),
-	('Perez', 'Roxana', '88881111', '2001-03-03', 7, 3),
-	('Quintana', 'Tania', '33334444', '2001-05-05', 9, 4);
-
-SELECT * FROM estudiantes;
-
-
 -- TAREA #################################################
 
 CREATE TABLE cargos
@@ -92,7 +54,7 @@ CREATE TABLE cargos
 	idcargo 		INT AUTO_INCREMENT PRIMARY KEY,
 	cargo 		VARCHAR(30),
 	CONSTRAINT uk_cargo_crg UNIQUE (crg)
-)ENGINE = INNODB
+)ENGINE = INNODB;
 
 
 CREATE TABLE colaboradores
@@ -121,8 +83,3 @@ CREATE TABLE usuarios
 	estado			CHAR(1)				NOT NULL DEFAULT '1',
 	CONSTRAINT uk_usuario_user UNIQUE (usuario)
 )ENGINE = INNODB;
-
-INSERT INTO usuarios(usuario, claveacceso) VALUES
-	('Jhon Francia','SENATI')
-	
-SELECT * FROM usuarios

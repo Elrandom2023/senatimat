@@ -89,7 +89,7 @@ class Colaborador extends Conexion{
     } catch (Exception $e) {
         die($e->getMessage());
     }
- }
+  }
 
 
 

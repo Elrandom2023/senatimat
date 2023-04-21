@@ -185,7 +185,7 @@ CALL spu_cv_eliminar(4)
 
 
 
--- LOGIN ####################3
+-- LOGIN ####################
 DELIMITER $$
 CREATE PROCEDURE spu_usuario_login(IN _usuario VARCHAR(30))
 BEGIN
@@ -200,3 +200,26 @@ CALL spu_usuario_login('jhon francia')
 UPDATE usuarios SET
 	claveacceso = '$2y$10$OQQxsU/5eFqY2q3Z.gLViOR83gUbL0mU5NoR3k6n4ZArcCjpKc.vS'
 	WHERE idusuario = 1;
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_estudiante_eliminar(IN idestudiante_ INT)
+BEGIN
+	DELETE FROM estudiantes
+	WHERE idestudiante = idestudiante_;
+END $$
+
+CALL spu_estudiante_eliminar(6)
+	
+	
+	
+	-- ELIMINAR FOTOGRAFIAS ########################
+DELIMITER$$
+CREATE PROCEDURE spu_fotografia_eliminar(IN idestudiante_ INT)
+BEGIN
+	SELECT fotografia FROM estudiantes WHERE idestudiante = idestudiante_;
+END$$
+
+CALL spu_fotografia_eliminar(10)
+
+CALL spu_estudiantes_listar
