@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.1 (64 bit)
-MySQL - 10.4.24-MariaDB : Database - senatimat
+MySQL - 10.4.27-MariaDB : Database - senatimat
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.24-MariaDB : Database - senatimat
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`senatimat` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`senatimat` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 
 USE `senatimat`;
 
@@ -25,7 +25,7 @@ CREATE TABLE `cargos` (
   `cargo` varchar(30) NOT NULL,
   PRIMARY KEY (`idcargo`),
   UNIQUE KEY `uk_cargo_crg` (`cargo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `cargos` */
 
@@ -49,7 +49,7 @@ CREATE TABLE `carreras` (
   UNIQUE KEY `uk_carrera_car` (`carrera`),
   KEY `fk_idescuela_car` (`idescuela`),
   CONSTRAINT `fk_idescuela_car` FOREIGN KEY (`idescuela`) REFERENCES `escuelas` (`idescuela`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `carreras` */
 
@@ -86,14 +86,15 @@ CREATE TABLE `colaboradores` (
   KEY `fk_idsede_clb` (`idsede`),
   CONSTRAINT `fk_idcargo_clb` FOREIGN KEY (`idcargo`) REFERENCES `cargos` (`idcargo`),
   CONSTRAINT `fk_idsede_clb` FOREIGN KEY (`idsede`) REFERENCES `sedes` (`idsede`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `colaboradores` */
 
 insert  into `colaboradores`(`idcolaborador`,`idcargo`,`idsede`,`apellidos`,`nombres`,`telefono`,`tipocontrato`,`cv`,`direccion`,`fecharegistro`,`fechaupdate`,`estado`) values 
 (1,1,1,'Gutierrez Maldonado','Juan','987654321','P',NULL,'Calle Random','2023-04-17 15:59:46',NULL,'1'),
 (2,2,2,'Castillo Torres','Yisus','963258741','P',NULL,'Calle Lima','2023-04-17 15:59:46',NULL,'1'),
-(3,3,3,'Puma Huaman','Andres','951263478','C',NULL,'Calle Brazil','2023-04-17 16:18:59',NULL,'1');
+(3,3,3,'Puma Huaman','Andres','951263478','C',NULL,'Calle Brazil','2023-04-17 16:18:59',NULL,'1'),
+(4,5,1,'Downey Jr','Robert John','957486321','P','70cca67c87e3abd813288bfda7f800e6de0d8dcc.pdf','New York City','2023-04-21 10:58:38',NULL,'1');
 
 /*Table structure for table `escuelas` */
 
@@ -104,7 +105,7 @@ CREATE TABLE `escuelas` (
   `escuela` varchar(50) NOT NULL,
   PRIMARY KEY (`idescuela`),
   UNIQUE KEY `uk_escuela_esc` (`escuela`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `escuelas` */
 
@@ -136,7 +137,7 @@ CREATE TABLE `estudiantes` (
   KEY `fk_idsede_est` (`idsede`),
   CONSTRAINT `fk_idcarrera_est` FOREIGN KEY (`idcarrera`) REFERENCES `carreras` (`idcarrera`),
   CONSTRAINT `fk_idsede_est` FOREIGN KEY (`idsede`) REFERENCES `sedes` (`idsede`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `estudiantes` */
 
@@ -160,7 +161,7 @@ CREATE TABLE `sedes` (
   `sede` varchar(40) NOT NULL,
   PRIMARY KEY (`idsede`),
   UNIQUE KEY `uk_sede_sde` (`sede`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `sedes` */
 
@@ -169,6 +170,25 @@ insert  into `sedes`(`idsede`,`sede`) values
 (1,'Chincha'),
 (3,'Ica'),
 (2,'Pisco');
+
+/*Table structure for table `usuarios` */
+
+DROP TABLE IF EXISTS `usuarios`;
+
+CREATE TABLE `usuarios` (
+  `idusuario` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(20) NOT NULL,
+  `claveacceso` varchar(80) NOT NULL,
+  `estado` char(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`idusuario`),
+  UNIQUE KEY `uk_usuario_user` (`usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `usuarios` */
+
+insert  into `usuarios`(`idusuario`,`usuario`,`claveacceso`,`estado`) values 
+(1,'El Random','$2y$10$OQQxsU/5eFqY2q3Z.gLViOR83gUbL0mU5NoR3k6n4ZArcCjpKc.vS','1'),
+(2,'Jhon Francia','$2y$10$0N4ks0g.Ny9OS4rhO/gjwu2/xXI8q/xfC2NGN0yV5dVW7G5ztuBZO','1');
 
 /* Procedure structure for procedure `spu_cargos_listar` */
 
@@ -193,6 +213,19 @@ BEGIN
 	SELECT idcarrera, carrera 
 		FROM carreras
 		WHERE idescuela = _idescuela;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_colaboradores_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_colaboradores_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_colaboradores_eliminar`(IN _idcolaborador INT)
+BEGIN
+	DELETE FROM colaboradores
+	WHERE idcolaborador = _idcolaborador;
 END */$$
 DELIMITER ;
 
@@ -236,10 +269,21 @@ BEGIN
 	IF _cv = '' THEN 
 		SET _cv = NULL;
 	END IF;
-
 	INSERT INTO colaboradores 
 	(idcargo, idsede, apellidos, nombres, telefono, tipocontrato, cv, direccion) VALUES
 	(_idcargo, _idsede, _apellidos, _nombres, _telefono, _tipocontrato, _cv, _direccion);
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_cv_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_cv_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_cv_eliminar`(IN idcolaborador_ INT)
+BEGIN
+	SELECT cv FROM colaboradores WHERE idcolaborador = idcolaborador_;
 END */$$
 DELIMITER ;
 
@@ -306,6 +350,31 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_estudiante_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_estudiante_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_estudiante_eliminar`(IN idestudiante_ INT)
+BEGIN
+	DELETE FROM estudiantes
+	WHERE idestudiante = idestudiante_;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_fotografia_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_fotografia_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_fotografia_eliminar`(IN idestudiante_ INT)
+BEGIN
+	SELECT fotografia FROM estudiantes WHERE idestudiante = idestudiante_;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_sedes_listar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_sedes_listar` */;
@@ -315,6 +384,20 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_sedes_listar`()
 BEGIN
 	SELECT * FROM sedes ORDER BY 2;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_usuario_login` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_usuario_login` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_usuario_login`(IN _usuario VARCHAR(30))
+BEGIN
+	SELECT 	idusuario, usuario, claveacceso
+	FROM usuarios
+	WHERE usuario = _usuario AND estado = '1';
 END */$$
 DELIMITER ;
 
